@@ -1,1 +1,1 @@
-export * from './product.interface';
+export type {Product} from './product.interface';
