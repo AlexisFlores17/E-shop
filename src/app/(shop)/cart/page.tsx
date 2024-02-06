@@ -53,7 +53,7 @@ export default function CartPage() {
             ))}
           </div>
           {/* Checkout*/}
-          <div className="bg-white rounded-xl shadow-xl p-7 max-h-80  ">
+          <div className="bg-white rounded-xl shadow-xl p-7 h-fit  ">
               <h2 className="text-2xl mb-2">Resumen de orden</h2>
               <div className="grid grid-cols-2">
                 <span>No. Productos</span>
