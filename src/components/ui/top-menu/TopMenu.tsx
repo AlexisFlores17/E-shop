@@ -14,9 +14,7 @@ export const TopMenu = () => {
       {/*logo */}
       <div>
         <Link href="/">
-          <span className={`${titleFont.className} antialiased font-bold`}>
-            TesCode
-          </span>
+          <span className={`${titleFont.className} antialiased font-bold`}>Teslo </span>
           <span> | Shop</span>
         </Link>
       </div>
