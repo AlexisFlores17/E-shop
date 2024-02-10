@@ -1,1 +1,1 @@
-export { generatePagination } from "./generatePaginationNumbers";
+export { generatePaginationNumber } from "./generatePaginationNumbers";
