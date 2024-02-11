@@ -1,7 +1,7 @@
+export const revalidate = 60;
 
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, Title } from "@/components";
-import { Category } from "@/interfaces/product.interface";
 import { Gender } from "@prisma/client";
 import { redirect } from "next/navigation";
 
