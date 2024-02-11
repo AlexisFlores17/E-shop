@@ -11,7 +11,7 @@ export const ProductGrid = ({products}:Props) => {
         {
             products.map( product => (
                 <ProductGridItem key={product.slug} product={product} />
-             ))
+            ))
         }
     </div>
   )
