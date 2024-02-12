@@ -1,3 +1,6 @@
+export const revalidate= 604800 //7 días en cache
+
+import { getProductBySlug } from "@/actions";
 import {
   ProductMobileSlideShow,
   ProductSlideShow,
@@ -5,7 +8,6 @@ import {
   SizeSelector,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -14,9 +16,11 @@ interface Props {
   };
 }
 
-export default function ProductPage({ params }: Props) {
+export default async function ProductPage({ params }: Props) {
   const { slug } = params;
-  const product = initialData.products.find((product) => product.slug === slug);
+
+  const product = await getProductBySlug(slug)
+
 
   if (!product) {
     notFound();
@@ -54,7 +58,7 @@ export default function ProductPage({ params }: Props) {
 
         <button className="btn-primary my-5">Agregar al carrito</button>
 
-        {/*Descripcion*/}
+        {/*Descripción*/}
         <h3 className="font-bold text-sm ">Descripción</h3>
         <p className="font-light text-pretty ">{product.description}</p>
       </div>
