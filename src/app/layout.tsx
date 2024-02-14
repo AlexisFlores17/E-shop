@@ -6,7 +6,10 @@ import { inter } from "@/config/fonts";
 
 
 export const metadata: Metadata = {
-  title: "Eshop | code:Alex",
+  title: {
+    template:"%s - Eshop | code:Alex",
+    default:"Home - Eshop | code:Alex"
+  },
   description: "Eshop by code:Alex",
 };
 

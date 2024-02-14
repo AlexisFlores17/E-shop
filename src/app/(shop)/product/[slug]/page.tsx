@@ -9,6 +9,7 @@ import {
   StockLabel,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
+import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -18,6 +19,29 @@ interface Props {
 }
 
 
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+  ): Promise<Metadata> {
+    // read route params
+    const slug = params.slug
+  
+    // fetch data
+    const product = await getProductBySlug(slug)
+  
+    // optionally access and extend (rather than replace) parent metadata
+  
+    return {
+      title: product?.title ?? "Producto no encontrado",
+      description: product?.description ?? " ",
+      openGraph: {
+        title: product?.title ?? "Producto no encontrado",
+        description: product?.description ?? " ",
+        //Images url
+        images: [`/product/${product?.images[1]}`],
+      },
+    }
+}
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = params;
