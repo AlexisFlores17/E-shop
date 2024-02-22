@@ -3,11 +3,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface State {
-  cart: CartProduct[];
+    cart: CartProduct[];
 
-  addProductToCart: (product: CartProduct) => void;
-  // updateProductQuantity
-  // removeProduct
+    addProductToCart: (product: CartProduct) => void;
+    getTotalItems: () => number;
+    // updateProductQuantity
+    // removeProduct
 }
 
 export const useCartStore = create<State>()(
@@ -16,6 +17,14 @@ export const useCartStore = create<State>()(
             cart: [],
 
             // Method
+
+            getTotalItems: ()=> {
+                const {cart} = get();
+
+                return cart.reduce( (total,item)=>{
+                    return total + item.quantity;
+                },0)
+            },
 
             addProductToCart: (product: CartProduct) => {
                 const { cart } = get();
@@ -46,7 +55,7 @@ export const useCartStore = create<State>()(
         }),
 
         {
-        name: "shopping-cart",
+            name: "shopping-cart"
         }
     )
 );
