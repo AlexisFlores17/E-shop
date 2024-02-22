@@ -1,5 +1,6 @@
 'use client'
 
+import { CartProduct } from "@/interfaces";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 
 interface Props{
