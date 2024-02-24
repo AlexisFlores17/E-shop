@@ -3,9 +3,9 @@
 import { signIn } from '@/auth.config';
 import { sleep } from '@/utils';
 import { AuthError } from 'next-auth';
- 
-// ...
- 
+import { revalidatePath } from 'next/cache';
+
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
@@ -14,7 +14,12 @@ export async function authenticate(
 
     // await sleep(2);
     
-    await signIn('credentials',  Object.fromEntries(formData));
+    await signIn('credentials', {
+      ... Object.fromEntries(formData),
+      redirect:false,
+    });
+
+    return "Success"
     
   } catch (error) {
     if (error instanceof AuthError) {

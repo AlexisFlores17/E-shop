@@ -3,6 +3,7 @@ import NextAuth ,{ type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import {z} from "zod"
 import bcriptjs from "bcryptjs";
+import prisma from "./lib/prisma"
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -34,7 +35,7 @@ export const authConfig: NextAuthConfig = {
 
         const {password:_ , ...rest} = user;
 
-        console.log({rest});
+        // console.log({rest});
 
         return rest;
       },
