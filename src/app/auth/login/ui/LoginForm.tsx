@@ -3,24 +3,25 @@
 import { authenticate } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-  const router = useRouter()
   
   useEffect(() => {
     
     if(state ==="Success") {
-      router.replace("/")
+      // router.replace("/")
+
+      //Aquí usamos esta manera de navegar porque el router de next no recarga la página y necesitamos refrescar la página para tener la información actualizada y no la de el cache
+      window.location.replace("/")
     }
     return () => {
       
     }
-  }, [state, router])
+  }, [state])
   
 
   return (
@@ -73,7 +74,6 @@ export const LoginForm = () => {
 
 function LoginButton() {
   const { pending } = useFormStatus();
-
 
   return (
     <button 

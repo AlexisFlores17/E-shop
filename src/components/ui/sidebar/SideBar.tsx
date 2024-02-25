@@ -5,6 +5,7 @@ import { useUIStore } from "@/store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   IoCloseOutline,
   IoLogInOutline,
@@ -19,10 +20,17 @@ import {
 export const SideBar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeSideMenu = useUIStore((state) => state.closeSideMenu);
+  const [loaded, setLoaded] = useState(true)
 
   const { data: session } = useSession();
 
   const isAuthenticated = !!session?.user;
+
+  const isAdmin = (session?.user.role ==="admin")
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <div>
@@ -65,30 +73,32 @@ export const SideBar = () => {
         </div>
 
         {/*Menu */}
-        <Link
-          href="/profile"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeSideMenu()}
-        >
-          <IoPersonOutline size={30} />
-          <span className="ml-3 text-xl">Perfil</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={30} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
-
         {isAuthenticated && (
-          <button
-            onClick={() => logout()}
-            className="flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-          >
-            <IoLogOutOutline size={30} />
-            <span className="ml-3 text-xl">Salir</span>
-          </button>
+          <>
+            <Link
+              href="/profile"
+              className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={() => closeSideMenu()}
+            >
+              <IoPersonOutline size={30} />
+              <span className="ml-3 text-xl">Perfil</span>
+            </Link>
+            <Link
+              href="/"
+              className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoTicketOutline size={30} />
+              <span className="ml-3 text-xl">Ordenes</span>
+            </Link>
+
+            <button
+              onClick={() => logout()}
+              className="flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoLogOutOutline size={30} />
+              <span className="ml-3 text-xl">Salir</span>
+            </button>
+          </>
         )}
 
         {!isAuthenticated && (
@@ -102,10 +112,11 @@ export const SideBar = () => {
           </Link>
         )}
 
-        <div className="w-fill h-px bg-gray-200 my-10" />
+        
 
-        {session?.user.role === "admin" && (
+        { isAdmin && (
           <>
+            <div className="w-fill h-px bg-gray-200 my-10" />
             <Link
               href="/"
               className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"

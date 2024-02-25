@@ -16,7 +16,7 @@ export default async function Home({searchParams}:Props) {
   const page = searchParams.page? parseInt(searchParams.page) :1;
 
   const {products, totalPages} = await getPaginatedProductsWithImages({page});
-
+  
   if(products.length ===0){
     redirect("/")
   }
