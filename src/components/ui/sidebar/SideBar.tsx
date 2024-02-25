@@ -3,6 +3,7 @@
 import { logout } from "@/actions";
 import { useUIStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoCloseOutline,
@@ -18,6 +19,11 @@ import {
 export const SideBar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeSideMenu = useUIStore((state) => state.closeSideMenu);
+
+  const { data: session } = useSession();
+
+  const isAuthenticated = !!session?.user;
+
   return (
     <div>
       {/*Background black */}
@@ -27,8 +33,11 @@ export const SideBar = () => {
       )}
       {/*Blur */}
       {isSideMenuOpen && (
-          <div onClick={()=> closeSideMenu()} className=" fade-in fixed top-0  left-0 w-screen h-dvh z-10 backdrop-blur-sm " />
-          )}
+        <div
+          onClick={() => closeSideMenu()}
+          className=" fade-in fixed top-0  left-0 w-screen h-dvh z-10 backdrop-blur-sm "
+        />
+      )}
 
       {/*Sidemenu */}
 
@@ -71,47 +80,57 @@ export const SideBar = () => {
           <IoTicketOutline size={30} />
           <span className="ml-3 text-xl">Ordenes</span>
         </Link>
-        <Link
-          href="/auth/login"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => closeSideMenu()}
-        >
-          <IoLogInOutline size={30} />
-          <span className="ml-3 text-xl">Ingresar</span>
-        </Link>
-        <button
-          onClick={ ()=> logout() }
-          className="flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogOutOutline size={30} />
-          <span className="ml-3 text-xl">Salir</span>
-        </button>
+
+        {isAuthenticated && (
+          <button
+            onClick={() => logout()}
+            className="flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          >
+            <IoLogOutOutline size={30} />
+            <span className="ml-3 text-xl">Salir</span>
+          </button>
+        )}
+
+        {!isAuthenticated && (
+          <Link
+            href="/auth/login"
+            className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => closeSideMenu()}
+          >
+            <IoLogInOutline size={30} />
+            <span className="ml-3 text-xl">Ingresar</span>
+          </Link>
+        )}
 
         <div className="w-fill h-px bg-gray-200 my-10" />
 
-        <Link
-          href="/"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoShirtOutline size={30} />
-          <span className="ml-3 text-xl">Productos</span>
-        </Link>
+        {session?.user.role === "admin" && (
+          <>
+            <Link
+              href="/"
+              className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoShirtOutline size={30} />
+              <span className="ml-3 text-xl">Productos</span>
+            </Link>
 
-        <Link
-          href="/"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={30} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+            <Link
+              href="/"
+              className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoTicketOutline size={30} />
+              <span className="ml-3 text-xl">Ordenes</span>
+            </Link>
 
-        <Link
-          href="/"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPeopleOutline size={30} />
-          <span className="ml-3 text-xl">Usuarios</span>
-        </Link>
+            <Link
+              href="/"
+              className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoPeopleOutline size={30} />
+              <span className="ml-3 text-xl">Usuarios</span>
+            </Link>
+          </>
+        )}
       </nav>
     </div>
   );

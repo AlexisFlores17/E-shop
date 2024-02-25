@@ -16,6 +16,7 @@ export const ProductGridItem = ({ product }: Props) => {
     <div className="rounded-md overflow-hidden fade-in">
       <Link href={`/product/${product.slug}`}>
         <Image
+          priority={true}
           onMouseLeave={()=>setDisplayImage(product.images[0])}
           onMouseEnter={()=>setDisplayImage(product.images[1])}
           src={`/products/${displayImage} `}

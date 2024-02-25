@@ -7,7 +7,6 @@ import { auth } from '@/auth.config';
 export default async function Login () {
 
   const session = await auth();
-  console.log(session)
 
   if(session) {
     redirect("/")
