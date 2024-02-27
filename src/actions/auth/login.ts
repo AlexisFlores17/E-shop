@@ -1,35 +1,46 @@
-"use server"
+"use server";
 
-import { signIn } from '@/auth.config';
-import { sleep } from '@/utils';
-import { AuthError } from 'next-auth';
-import { revalidatePath } from 'next/cache';
-
+import { signIn } from "@/auth.config";
+import { AuthError } from "next-auth";
 
 export async function authenticate(
   prevState: string | undefined,
-  formData: FormData,
+  formData: FormData
 ) {
   try {
-
     // await sleep(2);
-    
-    await signIn('credentials', {
-      ... Object.fromEntries(formData),
-      redirect:false,
+
+    await signIn("credentials", {
+      ...Object.fromEntries(formData),
+      redirect: false,
     });
 
-    return "Success"
-    
+    return "Success";
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
+        case "CredentialsSignin":
+          return "Invalid credentials.";
         default:
-          return 'Something went wrong.';
+          return "Something went wrong.";
       }
     }
     // throw error;
   }
 }
+
+export const login = async (email: string, password: string) => {
+  try {
+    await signIn("credentials", { email, password ,redirect: false,});
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+      message: "Error al iniciar sesión",
+    };
+  }
+};

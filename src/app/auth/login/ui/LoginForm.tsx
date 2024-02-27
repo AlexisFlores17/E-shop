@@ -9,20 +9,16 @@ import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispatch] = useFormState(authenticate, undefined);
-  
+
   useEffect(() => {
-    
-    if(state ==="Success") {
+    if (state === "Success") {
       // router.replace("/")
 
       //Aquí usamos esta manera de navegar porque el router de next no recarga la página y necesitamos refrescar la página para tener la información actualizada y no la de el cache
-      window.location.replace("/")
+      window.location.replace("/");
     }
-    return () => {
-      
-    }
-  }, [state])
-  
+    return () => {};
+  }, [state]);
 
   return (
     <form action={dispatch} className="flex flex-col">
@@ -76,14 +72,13 @@ function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button 
-      type="submit" 
-      className={
-        clsx({
-          "btn-primary" : !pending,
-          "btn-disabled": pending
-        })}
-      disabled={pending}    
+    <button
+      type="submit"
+      className={clsx({
+        "btn-primary": !pending,
+        "btn-disabled": pending,
+      })}
+      disabled={pending}
     >
       Ingresar
     </button>
