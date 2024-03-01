@@ -8,7 +8,7 @@ export default function AddressPage() {
       <div className="w-full  xl:w-[1000px] flex flex-col justify-center text-left">
         <Title title="Dirección" subtitle="Dirección de entrega" />
 
-       <AddressForm />
+      <AddressForm />
       </div>
     </div>
   );
