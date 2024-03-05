@@ -40,7 +40,7 @@ export const AddressForm = ({ countries, userStoreAddress={} }: Props) => {
   useEffect(() => {
     
     if(address.firstName){
-      reset(address);console.log("reload")
+      reset(address);
     }
   }, [address,reset]);
 
