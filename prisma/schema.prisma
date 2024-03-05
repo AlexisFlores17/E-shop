@@ -85,7 +85,7 @@ model Country {
 
 model UserAddress {
   id            String    @id @default(uuid())
-  firtsName     String
+  firstName     String
   lastName      String
   address       String
   address2      String?
@@ -96,6 +96,7 @@ model UserAddress {
 
   country       Country   @relation(fields: [countryId], references: [id])
   countryId     String
+  
   user          User      @relation(fields: [userId], references: [id])
   userId        String    @unique
 }

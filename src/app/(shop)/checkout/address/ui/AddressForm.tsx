@@ -1,7 +1,11 @@
 "use client";
 
+import { DeleteUserAddress, setUserAddress } from "@/actions";
 import { Country } from "@/interfaces";
+import { useAddressStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type FormInputs = {
@@ -21,18 +25,37 @@ interface Props {
 }
 
 export const AddressForm = ({ countries }: Props) => {
-  const {
-    handleSubmit,
-    register,
-    formState: { isValid },
-  } = useForm<FormInputs>({
+  const { handleSubmit,register,formState: { isValid }, reset } = useForm<FormInputs>({ 
     defaultValues: {
       //Todo:Base de datos
     },
   });
 
+  const {data:session}= useSession({required:true});
+  const  setAddress = useAddressStore( state => state.setAddress);
+  const address = useAddressStore( state => state.address);
+
+  useEffect(() => {
+    
+    if(address.firstName){
+      reset(address);console.log("reload")
+    }
+  }, [address,reset]);
+
+
+
   const onSubmit = (data: FormInputs) => {
     console.log(data);
+
+    setAddress(data);
+
+    const {rememberAddress, ...restAddress} = data;
+
+    if( rememberAddress){
+      setUserAddress(restAddress, session!.user.id);
+    } else {
+      DeleteUserAddress(session!.user.id);
+    }
   };
 
   return (
@@ -102,7 +125,7 @@ export const AddressForm = ({ countries }: Props) => {
         >
           <option value="">[ Seleccione ]</option>
           {countries.map((country) => (
-            <option key={country.id} value={country.name}>
+            <option key={country.id} value={country.id}>
               {country.name}
             </option>
           ))}
