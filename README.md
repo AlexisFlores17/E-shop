@@ -10,7 +10,8 @@ E-commerce con next.js 14 y postgreSQL
 4. Instalar dependencias ``` docker compose up -d```
 5. Correr las migraciones de Prisma ``` npx prisma migrate dev```
 6. Ejecutar seed ``` npm run seed```
-7. Correr el proyecto ```npm run dev```
+7. Limpiar el local storage del navegador.
+8. Correr el proyecto ```npm run dev```
 
 
 
