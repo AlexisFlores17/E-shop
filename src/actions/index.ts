@@ -1,3 +1,4 @@
+export { placeOrder } from "./order/place-order";
 export { getCountries } from "./country/get-countries";
 export { login } from "./auth/login";
 export { registerUser } from "./auth/register";
