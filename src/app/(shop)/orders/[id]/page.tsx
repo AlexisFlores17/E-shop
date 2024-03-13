@@ -1,9 +1,7 @@
 import { getOrderById } from "@/actions";
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import {  PayPalButton, Title } from "@/components";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
 import { currencyFormat } from "../../../../utils/currencyFormat";
 import { redirect } from "next/navigation";
@@ -118,7 +116,7 @@ export default async function OrderPage({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <div
+              {/* <div
                 className={clsx(
                   "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                   {
@@ -131,7 +129,8 @@ export default async function OrderPage({ params }: Props) {
                 <span className="mx-2">
                   {order?.isPaid ? "Pagado" : "Pendiente de pago"}
                 </span>
-              </div>
+              </div> */}
+              <PayPalButton />
             </div>
           </div>
         </div>
