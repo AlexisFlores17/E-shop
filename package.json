@@ -10,6 +10,7 @@
     "seed": "ts-node src/seed/seed-database.ts"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^8.0.2",
     "@paypal/react-paypal-js": "^8.1.4",
     "@prisma/client": "^5.9.1",
     "bcryptjs": "^2.4.3",

@@ -12,3 +12,4 @@ export { DeleteUserAddress } from './address/delete-user-address';
 export { getUserAddress } from './address/get-user-address';
 export {getOrderById} from './order/get-order-by-id';
 export {getOrderByUSer} from './order/get-order-by-user';
+export {SetTransactionId} from './payments/set-transaction-id';
