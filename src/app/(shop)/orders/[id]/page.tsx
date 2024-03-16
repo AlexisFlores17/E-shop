@@ -1,8 +1,7 @@
 import { getOrderById } from "@/actions";
-import {  PayPalButton, Title } from "@/components";
-import clsx from "clsx";
+import { OrderStatus, PayPalButton, Title } from "@/components";
 import Image from "next/image";
-import { IoCartOutline } from "react-icons/io5";
+
 import { currencyFormat } from "../../../../utils/currencyFormat";
 import { redirect } from "next/navigation";
 
@@ -34,20 +33,7 @@ export default async function OrderPage({ params }: Props) {
           <div className="flex flex-col mt-5">
             {" "}
             {/*Pago */}
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                {
-                  "bg-red-500": !order?.isPaid,
-                  "bg-green-700": order?.isPaid,
-                }
-              )}
-            >
-              <IoCartOutline size={30} />
-              <span className="mx-2">
-                {order?.isPaid ? "Pagado" : "Pendiente de pago"}
-              </span>
-            </div>
+            <OrderStatus isPaid={order?.isPaid ?? false} />
             {/* Items*/}
             {order!.OrderItem?.map((item) => (
               <div
@@ -130,10 +116,11 @@ export default async function OrderPage({ params }: Props) {
                   {order?.isPaid ? "Pagado" : "Pendiente de pago"}
                 </span>
               </div> */}
-              <PayPalButton 
-                amount= {order!.total}
-                orderId={order!.id}
-              />
+              {order?.isPaid ? (
+                <OrderStatus isPaid={order?.isPaid} />
+              ) : (
+                <PayPalButton amount={order!.total} orderId={order!.id} />
+              )}
             </div>
           </div>
         </div>

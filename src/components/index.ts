@@ -13,3 +13,4 @@ export { SizeSelector } from "./product/size-selector/SizeSelector";
 export { Title } from "./ui/title/Title";
 export { TopMenu } from "./ui/top-menu/TopMenu";
 export { PayPalButton } from "./paypal/PayPalButton";
+export { OrderStatus } from "./orders/OrderStatus";
