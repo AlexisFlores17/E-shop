@@ -37,13 +37,13 @@ export const SideBar = () => {
       {/*Background black */}
 
       {isSideMenuOpen && (
-        <div className=" fixed top-0  left-0 w-screen h-dvh z-10 bg-black opacity-30" />
+        <div className=" fixed top-0  left-0 w-screen h-dvh z-[9000] bg-black opacity-30" />
       )}
       {/*Blur */}
       {isSideMenuOpen && (
         <div
           onClick={() => closeSideMenu()}
-          className=" fade-in fixed top-0  left-0 w-screen h-dvh z-10 backdrop-blur-sm "
+          className=" fade-in fixed top-0  left-0 w-screen h-dvh z-[9000] backdrop-blur-sm "
         />
       )}
 
@@ -51,7 +51,7 @@ export const SideBar = () => {
 
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[500px] h-dvh bg-white z-20 shadow-2xl  transition-all duration-300 ",
+          "fixed p-5 right-0 top-0 w-[500px] h-dvh bg-white z-[9999] shadow-2xl  transition-all duration-300 ",
           {
             "translate-x-full": !isSideMenuOpen,
           }
