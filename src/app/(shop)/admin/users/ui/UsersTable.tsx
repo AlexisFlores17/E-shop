@@ -1,5 +1,6 @@
 "use client";
 
+import { ChangeUserRole } from "@/actions";
 import { User } from "@/interfaces";
 import Link from "next/link";
 import React from "react";
@@ -47,9 +48,9 @@ export const UsersTable = ({users}:Props) => {
             </td>
             <td className="flex items-center text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <select 
-                className="text-sm text-gray-900 w-full p-2"
+                className="text-sm text-gray-900 w-full p-2 cursor-pointer"
                 value={user.role}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={(e) => ChangeUserRole(user.id,e.target.value)}
                 >
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
