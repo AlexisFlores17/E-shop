@@ -15,3 +15,4 @@ export {getOrderByUSer} from './order/get-order-by-user';
 export {SetTransactionId} from './payments/set-transaction-id';
 export {paypalCheckPayment} from './payments/paypal-check-payment';
 export {getPaginatedOrders} from './order/get-paginated-orders';
+export {getPaginatedUsers} from './user/get-paginated-users';
