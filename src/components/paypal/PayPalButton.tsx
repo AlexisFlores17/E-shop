@@ -63,7 +63,6 @@ export const PayPalButton = ({orderId, amount}:Props) => {
 
   return (
     <PayPalButtons
-      className="index -z-50"
       createOrder={createOrder}
       onApprove={onApprove}
     />
