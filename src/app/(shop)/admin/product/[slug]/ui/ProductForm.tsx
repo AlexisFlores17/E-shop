@@ -1,10 +1,11 @@
 "use client";
 
-import { Product } from "@/interfaces";
-import { Category } from "@prisma/client";
+import { Category, Product } from "@/interfaces";
+import { ProductImage } from "@/interfaces/product.interface";
+import Image from "next/image";
 
 interface Props {
-  product: Product;
+  product: Product & { ProductImage?: ProductImage[] };
   categories: Category[];
 }
 
@@ -103,6 +104,20 @@ export const ProductForm = ({ product, categories }: Props) => {
 
           </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {product.ProductImage?.map((image) => ( 
+              <div key={image.id} className="">
+                <Image 
+                  alt={product.title ?? ""}
+                  src={`/products/${image.url}`}
+                  width={300}
+                  height={300}
+                  className="rounded-t shadow-md"
+                />
+                <button type="button" onClick={ ()=> console.log(image.id,image.url)} className="btn btn-danger w-full rounded-b-xl">Eliminar</button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </form>
