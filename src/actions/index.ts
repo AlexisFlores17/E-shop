@@ -17,3 +17,4 @@ export {paypalCheckPayment} from './payments/paypal-check-payment';
 export {getPaginatedOrders} from './order/get-paginated-orders';
 export {getPaginatedUsers} from './user/get-paginated-users';
 export {ChangeUserRole} from './user/change-user-role';
+export {getCategories} from './category/get-category';
