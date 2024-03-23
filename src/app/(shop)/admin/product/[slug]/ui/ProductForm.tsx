@@ -5,11 +5,12 @@ import { ProductImage } from "@/interfaces/product.interface";
 import Image from "next/image";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
-import { set } from 'zod';
-
+import { set } from "zod";
+import { create } from "domain";
+import { createUpdateProduct } from "@/actions";
 
 interface Props {
-  product: Product & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImage[] } ;
   categories: Category[];
 }
 
@@ -38,12 +39,12 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags.join(","),
+      tags: product.tags?.join(","),
       sizes: product.sizes ?? [],
     },
   });
 
-  watch("sizes")
+  watch("sizes");
 
   const onSizeChanged = (size: string) => {
     const sizes = new Set(getValues("sizes"));
@@ -51,15 +52,26 @@ export const ProductForm = ({ product, categories }: Props) => {
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
 
     setValue("sizes", Array.from(sizes));
-
   };
 
+  const onSubmit = async(data: FormInputs) => {
+    const formData = new FormData();
 
-  const onSubmit = (data: FormInputs) => {
-    console.log({ data });
+    const {...productToSave}= data;
+
+    formData.append("id", product.id ?? "");
+    formData.append("title", productToSave.title);
+    formData.append("slug", productToSave.slug);
+    formData.append("description", productToSave.description);
+    formData.append("price", productToSave.price.toString());
+    formData.append("inStock", productToSave.inStock.toString());
+    formData.append("sizes", productToSave.sizes.toString());
+    formData.append("tags", productToSave.tags);
+    formData.append("categoryId", productToSave.categoryId);
+    formData.append("gender", productToSave.gender);
+
+    const {ok}=  await createUpdateProduct(formData);
   };
-
-
 
   return (
     <form
@@ -155,7 +167,9 @@ export const ProductForm = ({ product, categories }: Props) => {
               // bg-blue-500 text-white <--- si está seleccionado
               <div
                 key={size}
-                onClick={ () => {onSizeChanged(size)}}
+                onClick={() => {
+                  onSizeChanged(size);
+                }}
                 className={clsx(
                   "cursor-pointer p-2 border rounded-md mr-2 mb-2 w-14 transition-all text-center ",
                   {
