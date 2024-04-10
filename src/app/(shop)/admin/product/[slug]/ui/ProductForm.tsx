@@ -5,7 +5,7 @@ import { ProductImage as ProductWithImage } from "@/interfaces/product.interface
 import Image from "next/image";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
-import { createUpdateProduct } from "@/actions";
+import { createUpdateProduct, deleteProductImage } from "@/actions";
 import { useRouter } from "next/navigation";
 import { ProductImage } from "@/components";
 
@@ -232,7 +232,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                 />
                 <button
                   type="button"
-                  onClick={() => console.log(image.id, image.url)}
+                  onClick={() => deleteProductImage(image.id, image.url)}
                   className="btn btn-danger w-full rounded-b-xl"
                 >
                   Eliminar

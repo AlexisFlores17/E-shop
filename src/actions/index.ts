@@ -19,3 +19,4 @@ export {getPaginatedUsers} from './user/get-paginated-users';
 export {ChangeUserRole} from './user/change-user-role';
 export {getCategories} from './category/get-category';
 export {createUpdateProduct} from './products/create-update-product';
+export {deleteProductImage} from './products/delete-product-image';
