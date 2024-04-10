@@ -61,7 +61,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
 
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
 
     if (product.id) {
       formData.append("id", product.id ?? "");
@@ -76,6 +76,12 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("tags", productToSave.tags);
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
+    
+    if(images){
+        for (let i = 0; i < images.length; i++) {
+            formData.append("images", images[i]);
+        }
+    }
 
     const { ok, product: updatedProduct } = await createUpdateProduct(formData);
 
@@ -205,6 +211,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             <span>Fotos</span>
             <input
               type="file"
+              {...register("images")}
               multiple
               className="p-2 border rounded-md bg-gray-200"
               accept="image/png, image/jpeg, image/avif"
