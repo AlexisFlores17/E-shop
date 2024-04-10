@@ -18,7 +18,7 @@ export const deleteProductImage = async (imageId: number, imageUrl: string ) => 
     try {
         await cloudinary.uploader.destroy(imageName);
 
-        const deletedImage = await prisma.productImage.delete({
+        const deletedImage = await prisma!.productImage.delete({
             where: {
                 id: imageId
             },
