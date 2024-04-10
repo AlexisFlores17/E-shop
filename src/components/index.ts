@@ -1,3 +1,4 @@
+import { Product } from '../interfaces/product.interface';
 export { Providers } from "./providers/providers";
 export { StockLabel } from "./product/stock-label/StockLabel";
 export { Footer } from "./ui/footer/Footer";
@@ -14,3 +15,4 @@ export { Title } from "./ui/title/Title";
 export { TopMenu } from "./ui/top-menu/TopMenu";
 export { PayPalButton } from "./paypal/PayPalButton";
 export { OrderStatus } from "./orders/OrderStatus";
+export {ProductImage} from "./product/product-image/ProductImage";

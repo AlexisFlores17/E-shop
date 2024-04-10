@@ -5,12 +5,11 @@ import { ProductImage } from "@/interfaces/product.interface";
 import Image from "next/image";
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
-import { set } from "zod";
-import { create } from "domain";
 import { createUpdateProduct } from "@/actions";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] } ;
+  product: Partial<Product> & { ProductImage?: ProductImage[] };
   categories: Category[];
 }
 
@@ -26,9 +25,13 @@ interface FormInputs {
   tags: string;
   gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
+
+  images?: FileList;
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -41,6 +44,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       ...product,
       tags: product.tags?.join(","),
       sizes: product.sizes ?? [],
+      images: undefined,
     },
   });
 
@@ -54,12 +58,15 @@ export const ProductForm = ({ product, categories }: Props) => {
     setValue("sizes", Array.from(sizes));
   };
 
-  const onSubmit = async(data: FormInputs) => {
+  const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
 
-    const {...productToSave}= data;
+    const { ...productToSave } = data;
 
-    formData.append("id", product.id ?? "");
+    if (product.id) {
+      formData.append("id", product.id ?? "");
+    }
+
     formData.append("title", productToSave.title);
     formData.append("slug", productToSave.slug);
     formData.append("description", productToSave.description);
@@ -70,7 +77,11 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    const {ok}=  await createUpdateProduct(formData);
+    const { ok, product: updatedProduct } = await createUpdateProduct(formData);
+
+    if (!ok) return alert("Error al guardar el producto");
+
+    router.replace(`/admin/product/${updatedProduct?.slug}`);
   };
 
   return (
@@ -159,6 +170,14 @@ export const ProductForm = ({ product, categories }: Props) => {
 
       {/* Selector de tallas y fotos */}
       <div className="w-full">
+        <div className="flex flex-col mb-2">
+          <span>Inventario</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("inStock", { required: true, min: 0 })}
+          />
+        </div>
         {/* As checkboxes */}
         <div className="flex flex-col">
           <span>Tallas</span>
@@ -188,7 +207,7 @@ export const ProductForm = ({ product, categories }: Props) => {
               type="file"
               multiple
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/avif"
             />
           </div>
 
@@ -196,6 +215,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             {product.ProductImage?.map((image) => (
               <div key={image.id} className="">
                 <Image
+                  priority={true}
                   alt={product.title ?? ""}
                   src={`/products/${image.url}`}
                   width={300}

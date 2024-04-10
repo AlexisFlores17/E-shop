@@ -6,6 +6,7 @@ import { Gender, Product } from '@prisma/client';
 import {z} from 'zod';
 import prisma from '@/lib/prisma';
 import { Size } from '@/interfaces';
+import { revalidatePath } from 'next/cache';
 
 const productSchema = z.object({
     id: z.string().uuid().optional().nullable(),
@@ -38,40 +39,63 @@ export const createUpdateProduct = async (formData:FormData) => {
     product.slug = product.slug.toLowerCase().replace(/ /g, "-").trim();
     const {id,...rest} = product;
 
-    const prismaTx = await prisma.$transaction( async(tx) =>{
+    try {
+        const prismaTx = await prisma.$transaction( async(tx) =>{
 
-        let product: Product;
-        const tagsArray = rest.tags.split(",").map( tag => tag.trim().toLowerCase());
+            let product: Product;
+            const tagsArray = rest.tags.split(",").map( tag => tag.trim().toLowerCase());
+    
+            if(id){
+                product = await prisma.product.update({
+                    where: {id},
+                    data: {
+                        ...rest,
+                        sizes:{
+                            set: rest.sizes as Size[]
+                        },
+                        tags: {
+                            set: tagsArray
+                        },
+                    }
+                })
+    
+            }else{
+                product= await prisma.product.create({
+                    data:{
+                        ...rest,
+                        sizes:{
+                            set: rest.sizes as Size[]
+                        },
+                        tags: {
+                            set: tagsArray
+                        },
+                    }
+                })
+                console.log({updatedProduct: product})
+            }
+    
+            return {
+                product
+            }
+        });
 
-        if(id){
-            product = await prisma.product.update({
-                where: {id},
-                data: {
-                    ...rest,
-                    sizes:{
-                        set: rest.sizes as Size[]
-                    },
-                    tags: {
-                        set: tagsArray
-                    },
-                }
-            })
+        //Revalidate Path
 
-            console.log({updatedProduct: product})
-        }else{
-
-        }
+        revalidatePath(`/admin/products`)
+        revalidatePath(`/admin/product/${product.slug}`)
+        revalidatePath(`/products/${product.slug}`)
 
         return {
-
+            ok: true,
+            product: prismaTx.product
         }
-    })
-
-    // Revalidate path()
-
     
-    return {
-        ok: true,
+    } catch (error) {
+        console.log(error)
+        return {
+            ok: false,
+            message: "Error al guardar el producto"
+        }
     }
 
 }
