@@ -51,7 +51,8 @@ export default async function ProductPage({ params }: Props) {
 
 
   if (!product) {
-    notFound();
+    // notFound();
+    return
   }
 
   return (
