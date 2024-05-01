@@ -12,7 +12,7 @@ export const getProductBySlug = async(slug:string)=>{
                     slug: slug
                 }
             })
-
+            console.log("product", product);
             if(!product) return null;
 
             return {
