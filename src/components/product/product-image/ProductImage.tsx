@@ -7,8 +7,6 @@ interface Props {
   style? : React.StyleHTMLAttributes<HTMLImageElement>["style"];
   width: number;
   height: number;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
 }
 
 export const ProductImage = ({ src, alt, className, width = 80, height =80, style }: Props) => {
@@ -27,6 +25,7 @@ export const ProductImage = ({ src, alt, className, width = 80, height =80, styl
       height={height}
       className={className}
       style={style}
+      
       // style={{ width: '100%', height: 'auto' }}
     />
   );

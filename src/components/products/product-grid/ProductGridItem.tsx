@@ -1,6 +1,7 @@
 "use client";
-import { ProductImage } from "@/components/product/product-image/ProductImage";
+
 import { Product } from "@/interfaces";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,7 +16,7 @@ export const ProductGridItem = ({ product }: Props) => {
   return (
     <div className="rounded-md overflow-hidden fade-in">
       <Link href={`/product/${product.slug}`}>
-        <ProductImage
+        <Image
           onMouseLeave={()=>setDisplayImage(product.images[0])}
           onMouseEnter={()=>setDisplayImage(product.images[1])}
           src={`/${displayImage}`}
