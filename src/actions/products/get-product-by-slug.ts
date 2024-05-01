@@ -1,5 +1,7 @@
 "use server"
 
+import prisma from '@/lib/prisma';
+
 export const getProductBySlug = async(slug:string)=>{
 
         try {
